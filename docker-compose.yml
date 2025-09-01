@@ -1,0 +1,40 @@
+services:
+  # Serviço do Back-end (API)
+  api:
+    container_name: api_nodejs
+
+    build: ./api
+    
+    ports:
+      - "3001:3001"
+    
+    environment:
+      - PORT=3001
+    
+    networks:
+      - minha-rede
+    
+    restart: unless-stopped
+
+  # Serviço do Front-end (React)
+  web:
+    
+    container_name: interface_react
+    
+    build: ./web
+   
+    ports:
+      - "8080:80"
+   
+    depends_on:
+      - api
+    
+    networks:
+      - minha-rede
+    restart: unless-stopped
+
+
+networks:
+  minha-rede:
+    
+    driver: bridge
